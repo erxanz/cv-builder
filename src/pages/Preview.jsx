@@ -67,27 +67,23 @@ export default function Preview() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#1E293B]">
-      <main className="mx-auto max-w-400 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
-          <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
-            <div className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
+          <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
+            <div className="border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
+              <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                  Preview
-                </p>
-                <p className="mt-1 text-sm text-[#475569]">
-                  {selectedTemplate.name} • {paper.label} • {paper.width} x {paper.height} mm
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Preview</p>
+                <p className="mt-1 text-sm text-[#475569]">{selectedTemplate.name} • {paper.label}</p>
               </div>
 
-              <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1">
+              <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-1">
                 {Object.values(PAPER_SIZES).map((size) => (
                   <button
                     key={size.id}
                     type="button"
                     onClick={() => setPaperSize(size.id)}
-                    className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
+                    className={`rounded-md px-3 py-1 text-sm font-semibold transition-all ${
                       paperSize === size.id
                         ? "bg-white text-[#1E293B] shadow-sm"
                         : "text-[#475569] hover:text-[#1E293B]"
@@ -97,18 +93,18 @@ export default function Preview() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Button
                   variant="secondary"
                   onClick={() => navigate("/builder")}
-                  className="border-slate-200 bg-white text-[#1E293B] hover:bg-slate-50 hover:text-[#1E293B]">
-                  Kembali Edit
+                  className="text-sm px-3 py-2 border-slate-200 bg-white text-[#1E293B] hover:bg-slate-50">
+                  Edit
                 </Button>
                 <Button
                   onClick={handleDownload}
                   disabled={isGenerating}
-                  className="bg-[#2563EB] hover:bg-[#1D4ED8] focus:ring-blue-300">
-                  {isGenerating ? "Membuat PDF..." : "Unduh PDF"}
+                  className="text-sm px-3 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] focus:ring-blue-300">
+                  {isGenerating ? "Membuat..." : "Unduh"}
                 </Button>
               </div>
               </div>
@@ -125,41 +121,26 @@ export default function Preview() {
               }}
             />
 
-            <div className="overflow-x-auto bg-slate-100/60 p-3 sm:p-4 lg:p-5">
+            <div className="overflow-x-auto bg-slate-100/60 p-2 sm:p-3 lg:p-4">
               <div className="mx-auto w-fit">
-                <ProfessionalCV
-                  data={cvData}
-                  templateId={selectedTemplate.id}
-                  paperSize={paperSize}
-                />
+                <ProfessionalCV data={cvData} templateId={selectedTemplate.id} paperSize={paperSize} />
               </div>
             </div>
           </section>
+          <aside className="rounded-lg border border-slate-200 bg-white p-4 text-[#1E293B] shadow-soft">
+            <h2 className="text-sm font-bold">Periksa cepat</h2>
+            <ul className="mt-3 space-y-2 text-sm leading-5 text-[#475569]">
+              <li>Nama & kontak sudah benar</li>
+              <li>Pengalaman disusun dari yang relevan</li>
+              <li>Ringkasan singkat dan jelas</li>
+            </ul>
 
-          <aside className="rounded-4xl border border-slate-200 bg-white p-6 text-[#1E293B] shadow-soft">
-            <h2 className="text-lg font-bold">Checklist final</h2>
-            <div className="mt-4 space-y-3 text-sm leading-6 text-[#475569]">
-              <p>Pastikan nama, kontak, dan ringkasan profil sudah paling kuat.</p>
-              <p>
-                Periksa apakah pengalaman dan pendidikan sudah tersusun dari yang
-                paling relevan.
-              </p>
-              <p>
-                Jika CV terasa terlalu padat, kembali ke builder dan sesuaikan
-                ukuran kertas.
-              </p>
-            </div>
-
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                Template aktif
-              </p>
-              <p className="mt-2 text-base font-semibold text-[#1E293B]">
-                {selectedTemplate.name}
-              </p>
-              <p className="mt-1 text-sm text-[#475569]">
-                {selectedTemplate.description}
-              </p>
+            <div className="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Template aktif</p>
+              <p className="mt-1 text-sm font-semibold text-[#1E293B]">{selectedTemplate.name}</p>
+              {selectedTemplate.description ? (
+                <p className="mt-1 text-xs text-[#475569] line-clamp-2">{selectedTemplate.description}</p>
+              ) : null}
             </div>
           </aside>
         </div>

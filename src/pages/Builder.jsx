@@ -155,9 +155,9 @@ export default function Builder() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <main className="mx-auto grid max-w-400 grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-6 xl:px-8">
+      <main className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-[1.05fr_0.95fr] lg:px-6 xl:px-8">
         <section className="relative rounded-[28px] border border-slate-200 bg-white p-5 shadow-soft sm:p-8 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-4">
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-slate-950 px-5 py-4 text-white">
+          <div className="mb-6 flex items-center justify-between gap-4 rounded-md bg-slate-950 px-3 py-2 text-white">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">
                 Alur
@@ -173,23 +173,20 @@ export default function Builder() {
               </span>
             </div>
           </div>
-
-          <div className="mb-8 flex flex-wrap gap-2.5">
+          <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
             {steps.map((step, index) => (
               <button
                 key={step.title}
                 type="button"
                 onClick={() => setCurrentStep(index)}
                 aria-current={index === currentStep}
-                className={`min-w-40 flex-1 rounded-xl border px-3.5 py-2.5 text-left transition-all ${
+                className={`flex-none rounded-lg border px-3 py-2 text-sm transition-all ${
                   index === currentStep
                     ? "border-slate-900 bg-slate-900 text-white"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
                 } cursor-pointer`}>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.24em] opacity-80">
-                  Langkah {index + 1}
-                </div>
-                <div className="mt-1 text-sm font-bold">{step.title}</div>
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] opacity-80">{`Langkah ${index + 1}`}</div>
+                <div className="mt-1 text-sm font-semibold">{step.title}</div>
               </button>
             ))}
           </div>
@@ -197,18 +194,9 @@ export default function Builder() {
           <div className="space-y-6">
             {currentStep === 0 && (
               <div className="space-y-5">
-                <div className="mb-5 flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                      Step 1
-                    </p>
-                    <h2 className="mt-1 text-2xl font-black text-slate-950">
-                      Informasi Pribadi
-                    </h2>
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                      Nama, kontak, dan ringkasan singkat.
-                    </p>
-                  </div>
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 1</p>
+                  <h2 className="mt-1 text-xl font-black text-slate-950">Informasi Pribadi</h2>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <Input label="Nama Lengkap" name="fullName" value={cvData.personal.fullName} onChange={handlePersonalChange} />
@@ -218,13 +206,11 @@ export default function Builder() {
                 </div>
                 <Input label="Alamat" name="address" value={cvData.personal.address} onChange={handlePersonalChange} />
 
-                <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-4">
+                <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50/70 p-3">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="space-y-2">
                       <p className="text-sm font-semibold text-slate-900">Foto Profil</p>
-                      <p className="max-w-2xl text-sm leading-6 text-slate-600">
-                        Tambahkan foto formal untuk template yang memakai foto. Foto disimpan lokal agar tetap aman saat preview dan export PDF.
-                      </p>
+                      <p className="max-w-xl text-sm leading-5 text-slate-600">Tambahkan foto formal jika diperlukan (opsional).</p>
                       {cvData.personal.photoUrl ? (
                         <button
                           type="button"
@@ -236,7 +222,7 @@ export default function Builder() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4">
-                      <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                      <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                         {cvData.personal.photoUrl ? (
                           <img
                             src={cvData.personal.photoUrl}
@@ -279,7 +265,7 @@ export default function Builder() {
                     name="summary"
                     value={cvData.personal.summary}
                     onChange={handlePersonalChange}
-                    className="min-h-32 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-100"
+                    className="min-h-24 w-full resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-100"
                     placeholder="Tulis 2-4 kalimat yang merangkum pengalaman, keahlian utama, dan arah karier Anda."
                   />
                 </div>
@@ -288,18 +274,12 @@ export default function Builder() {
 
             {currentStep === 1 && (
               <div className="space-y-5">
-                <div className="mb-5 flex items-start justify-between gap-4">
+                <div className="mb-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                      Step 2
-                    </p>
-                    <h2 className="mt-1 text-2xl font-black text-slate-950">
-                      Pendidikan
-                    </h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 2</p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">Pendidikan</h2>
                   </div>
-                  <Button variant="secondary" onClick={addEducation}>
-                    Tambah Pendidikan
-                  </Button>
+                  <Button variant="secondary" onClick={addEducation} className="px-3 py-2">Tambah</Button>
                 </div>
                 <div className="space-y-4">
                   {cvData.education.map((education, index) => (
@@ -335,18 +315,12 @@ export default function Builder() {
 
             {currentStep === 2 && (
               <div className="space-y-5">
-                <div className="mb-5 flex items-start justify-between gap-4">
+                <div className="mb-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                      Step 3
-                    </p>
-                    <h2 className="mt-1 text-2xl font-black text-slate-950">
-                      Pengalaman
-                    </h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 3</p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">Pengalaman</h2>
                   </div>
-                  <Button variant="secondary" onClick={addExperience}>
-                    Tambah Pengalaman
-                  </Button>
+                  <Button variant="secondary" onClick={addExperience} className="px-3 py-2">Tambah</Button>
                 </div>
                 <div className="space-y-4">
                   {cvData.experience.map((experience, index) => (
@@ -387,13 +361,9 @@ export default function Builder() {
 
             {currentStep === 3 && (
               <div className="space-y-5">
-                <div className="mb-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                      Step 4
-                    </p>
-                    <h2 className="mt-1 text-2xl font-black text-slate-950">
-                      Keahlian
-                    </h2>
+                <div className="mb-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 4</p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">Keahlian</h2>
                 </div>
                 <Input
                   label="Daftar Keahlian (pisahkan dengan koma)"
@@ -409,25 +379,19 @@ export default function Builder() {
 
             {currentStep === 4 && (
               <div className="space-y-5">
-                <div className="mb-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-                      Step 5
-                    </p>
-                    <h2 className="mt-1 text-2xl font-black text-slate-950">
-                      Review
-                    </h2>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
-                      Pilih ukuran kertas dan cek tata letak.
-                    </p>
+                <div className="mb-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 5</p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">Review</h2>
+                    <p className="mt-1 text-sm text-slate-600">Pilih ukuran kertas dan cek tata letak.</p>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-3 md:grid-cols-2">
                   {Object.values(PAPER_SIZES).map((size) => (
                     <button
                       key={size.id}
                       type="button"
                       onClick={() => setPaperSize(size.id)}
-                      className={`rounded-2xl border p-4 text-left transition-all ${
+                      className={`rounded-lg border p-3 text-left transition-all ${
                         paperSize === size.id
                           ? "border-slate-900 bg-slate-900 text-white"
                           : "border-slate-200 bg-slate-50/60 hover:border-slate-300"
@@ -452,7 +416,7 @@ export default function Builder() {
             )}
           </div>
 
-          <div className="mt-8 flex items-center justify-between gap-4 border-t border-slate-200 pt-6 lg:sticky lg:bottom-6 lg:bg-white/0 lg:pt-4">
+          <div className="mt-6 flex items-center justify-between gap-3 border-t border-slate-200 pt-4 lg:sticky lg:bottom-6 lg:bg-white/0 lg:pt-3">
             <Button
               variant="secondary"
               onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
@@ -469,7 +433,7 @@ export default function Builder() {
             ) : (
               <Button
                 onClick={() => navigate("/preview")}
-                className="bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-400">
+                className="bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-400 px-4 py-2">
                 Selesai & Preview
               </Button>
             )}
@@ -477,19 +441,15 @@ export default function Builder() {
 
         </section>
 
-        <aside className="hidden rounded-[28px] border border-slate-200 bg-white p-6 shadow-soft lg:flex lg:flex-col lg:items-center lg:justify-start lg:overflow-y-auto lg:sticky lg:top-24">
-          <div className="mb-4 w-full border-b border-slate-200 pb-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-              Preview langsung
-            </p>
+        <aside className="hidden rounded-lg border border-slate-200 bg-white p-4 shadow-soft lg:flex lg:flex-col lg:items-center lg:justify-start lg:overflow-y-auto lg:sticky lg:top-24">
+          <div className="mb-3 w-full border-b border-slate-200 pb-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Preview</p>
             <div className="mt-1 flex items-center justify-between gap-3">
-              <p className="text-sm font-bold text-slate-950">Tampilan {selectedTemplate.name}</p>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600">
-                {paperSize.toUpperCase()}
-              </span>
+              <p className="text-sm font-bold text-slate-950">{selectedTemplate.name}</p>
+              <span className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{paperSize.toUpperCase()}</span>
             </div>
           </div>
-          <div className="w-full overflow-x-auto rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+          <div className="w-full overflow-x-auto rounded-lg border border-slate-200 bg-slate-50/50 p-3">
             <div className="mx-auto w-fit">
               <ProfessionalCV data={cvData} templateId={selectedTemplate.id} paperSize={paperSize} />
             </div>
