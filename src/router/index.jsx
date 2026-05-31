@@ -10,7 +10,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />, // App sebagai layout utama
     children: [
-      { path: "/", element: <Home /> },
+      { index: true, element: <Home /> },
       { path: "/builder", element: <Builder /> },
       { path: "/templates", element: <Templates /> },
       { path: "/preview", element: <Preview /> },

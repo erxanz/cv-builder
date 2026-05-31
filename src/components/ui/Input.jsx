@@ -3,17 +3,17 @@ import React, { forwardRef } from "react";
 export const Input = forwardRef(
   ({ label, error, type = "text", ...props }, ref) => {
     return (
-      <div className="flex flex-col gap-1.5 w-full mb-4">
+      <div className="flex flex-col gap-1.5 w-full mb-5">
         {label && (
-          <label className="text-sm font-semibold text-gray-700">{label}</label>
+          <label className="text-sm font-semibold text-slate-700">{label}</label>
         )}
         <input
           ref={ref}
           type={type}
-          className={`w-full px-4 py-2.5 bg-white border rounded-lg text-sm text-gray-900 transition-colors focus:outline-none focus:ring-2 ${
+          className={`w-full px-4 py-3 bg-white border rounded-xl text-sm text-slate-900 transition-colors focus:outline-none focus:ring-2 shadow-sm ${
             error
               ? "border-red-500 focus:ring-red-200 focus:border-red-500"
-              : "border-gray-300 focus:ring-blue-100 focus:border-blue-500 hover:border-gray-400"
+              : "border-slate-200 focus:ring-slate-100 focus:border-slate-500 hover:border-slate-300"
           }`}
           {...props}
         />

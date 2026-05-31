@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      {/* Outlet akan merender komponen Home, Builder, dll sesuai URL */}
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <Navbar />
       <Outlet />
     </div>
   );
