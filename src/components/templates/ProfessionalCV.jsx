@@ -223,6 +223,58 @@ function ProjectCard({ project }) {
   );
 }
 
+function getInitials(fullName) {
+  return (fullName || "")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function PhotoFrame({ fullName, photoUrl, majorLabel, palette }) {
+  return (
+    <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
+        <div className="aspect-4/5 w-full">
+          {photoUrl ? (
+            <img
+              src={photoUrl}
+              alt={`Foto profil ${fullName}`}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div
+              className="flex h-full w-full items-center justify-center"
+              style={{ background: `linear-gradient(180deg, ${palette.soft} 0%, #ffffff 100%)` }}>
+              <div className="text-center">
+                <div
+                  className="mx-auto flex h-24 w-24 items-center justify-center rounded-full text-3xl font-black shadow-sm"
+                  style={{ backgroundColor: palette.accent, color: "#ffffff" }}>
+                  {getInitials(fullName || "Rahman Badio") || "CV"}
+                </div>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
+                  Photo ready
+                </p>
+                <p className="mt-2 text-sm font-semibold text-slate-700">{majorLabel}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-4 space-y-1 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
+          Foto profil
+        </p>
+        <p className="text-lg font-bold text-[#1E293B]">{fullName || "Rahman Badio"}</p>
+        <p className="text-sm text-slate-600">{majorLabel}</p>
+      </div>
+    </div>
+  );
+}
+
 export function ProfessionalCV({
   data,
   templateId = "executive",
@@ -232,6 +284,10 @@ export function ProfessionalCV({
   const template = getTemplateById(templateId);
   const paper = getPaperSizeById(paperSize);
   const palette = templatePalette[template.accent] ?? templatePalette.slate;
+  const layout = template.layout ?? "classic";
+  const isPhotoLayout = layout === "photo";
+  const isFullTextLayout = layout === "fulltext";
+  const isAcademicLayout = layout === "academic";
 
   const skillItems = (skills || "")
     .split(",")
@@ -268,128 +324,491 @@ export function ProfessionalCV({
   const educationItems = education?.length ? education : defaultEducation;
   const experienceItems = experience?.length ? experience : defaultExperience;
   const projectItems = projects?.length ? projects : defaultProjects;
+  const primaryEducation = educationItems[0];
+  const majorLabel =
+    primaryEducation?.degree || personal.title || "Nama jurusan belum diisi";
+  const summaryText =
+    personal.summary ||
+    "Mahasiswa semester 6 yang sedang menjalani program magang. Memiliki minat kuat pada pengembangan infrastruktur backend, manajemen database, dan teknologi cloud.";
+  const articleClassName =
+    "mx-auto overflow-hidden rounded-[34px] border border-slate-200 bg-white text-[#1E293B] shadow-[0_18px_60px_rgba(15,23,42,0.08)] " +
+    (isFullTextLayout ? "p-6 sm:p-10" : "p-5 sm:p-8 lg:p-10");
 
   return (
     <article
       id="cv-render-area"
       aria-label={`Resume ${template.name} ${paper.label}`}
       style={{ width: `${paper.width}mm`, minHeight: `${paper.height}mm` }}
-      className="mx-auto overflow-hidden rounded-[34px] border border-slate-200 bg-white p-5 text-[#1E293B] shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-8 lg:p-10">
-      <div className="mb-8 flex flex-col gap-6 border-b border-slate-200 pb-6 lg:flex-row lg:items-start lg:justify-between">
-        <div className="space-y-4">
-          <span
-            className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.34em]"
-            style={{ backgroundColor: palette.soft, color: palette.text }}>
-            {template.category} • {paper.label}
-          </span>
+      className={articleClassName}>
+      {isPhotoLayout ? (
+        <div className="space-y-8">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+            <div className="space-y-5 border-b border-slate-200 pb-8 lg:border-b-0 lg:pb-0">
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.34em]"
+                style={{ backgroundColor: palette.soft, color: palette.text }}>
+                {template.category} • {paper.label}
+              </span>
 
-          <div>
-            <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
-              {personal.fullName || "Rahman Badio"}
-            </h1>
-            <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
-              {personal.title || "Backend Software Engineering Intern"}
-            </p>
+              <div>
+                <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
+                  {personal.fullName || "Rahman Badio"}
+                </h1>
+                <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
+                  {personal.title || "Backend Software Engineering Intern"}
+                </p>
+              </div>
+
+              <p className="max-w-3xl text-sm leading-7 text-[#475569] sm:text-base">
+                {summaryText}
+              </p>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {contactItems.map((item) => (
+                  <ContactItem key={item.label} {...item} />
+                ))}
+              </div>
+            </div>
+
+            <PhotoFrame
+              fullName={personal.fullName || "Rahman Badio"}
+              photoUrl={personal.photoUrl}
+              majorLabel={majorLabel}
+              palette={palette}
+            />
           </div>
 
-          <p className="max-w-3xl text-sm leading-7 text-[#475569] sm:text-base">
-            {personal.summary ||
-              "Mahasiswa semester 6 yang sedang menjalani program magang. Memiliki minat kuat pada pengembangan infrastruktur backend, manajemen database, dan teknologi cloud."}
-          </p>
-        </div>
+          <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr]">
+            <aside className="space-y-8">
+              <section className="space-y-3">
+                <SectionHeading
+                  eyebrow="Tentang Saya"
+                  title="Profil singkat"
+                  description="Layout dengan foto tetap mempertahankan area ringkasan yang tenang dan mudah dibaca." />
+                <p className="mt-4 text-sm leading-7 text-[#475569]">{summaryText}</p>
+              </section>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:w-xl">
-          {contactItems.map((item) => (
-            <ContactItem key={item.label} {...item} />
-          ))}
-        </div>
-      </div>
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Pendidikan"
+                  title="Riwayat akademik"
+                  description="Cocok untuk mahasiswa atau lulusan baru yang ingin menonjolkan jurusan." />
 
-      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <aside className="space-y-8">
-          <section className="space-y-3">
-            <SectionHeading
-              eyebrow="Tentang Saya"
-              title="Profil singkat"
-              description="Ringkasan fokus profesional dan arah minat teknis yang ingin ditonjolkan." />
-            <p className="mt-4 text-sm leading-7 text-[#475569]">
-              {personal.summary ||
-                "Mahasiswa semester 6 yang sedang menjalani program magang. Memiliki minat kuat pada pengembangan infrastruktur backend, manajemen database, dan teknologi cloud."}
+                <div className="space-y-3">
+                  {educationItems.map((edu) => (
+                    <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl bg-[#F8FAFCB3] p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#2563EB] shadow-sm">
+                          <FiBookOpen className="text-base" />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-base font-bold text-[#1E293B]">{edu.year}</p>
+                          <p className="mt-1 text-sm font-semibold text-slate-700">{edu.school}</p>
+                          <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Keahlian Teknis"
+                  title="Skill utama"
+                  description="Keahlian penting tetap ditampilkan sebagai chip agar tampilan foto tetap rapi." />
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {skillItems.length > 0 ? (
+                    skillItems.map((skill) => <Pill key={skill}>{skill}</Pill>)
+                  ) : (
+                    <p className="text-sm text-[#475569]">Keahlian belum ditambahkan.</p>
+                  )}
+                </div>
+              </section>
+            </aside>
+
+            <section className="space-y-8">
+              <section className="space-y-4">
+                <SectionHeading
+                  eyebrow="Pengalaman"
+                  title="Timeline magang"
+                  description="Pengalaman profesional atau proyek kerja ditata di kolom utama agar lebih fokus." />
+
+                <div className="space-y-1">
+                  {experienceItems.map((item, index) => (
+                    <TimelineItem
+                      key={`${item.role}-${index}`}
+                      item={item}
+                      isLast={index === experienceItems.length - 1}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Proyek"
+                  title="Sorotan portofolio"
+                  description="Kartu proyek tetap bersih agar CV dengan foto tidak terasa penuh." />
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {projectItems.map((project) => (
+                    <ProjectCard key={project.name} project={project} />
+                  ))}
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      ) : isFullTextLayout ? (
+        <div className="space-y-8">
+          <header className="space-y-5 border-b border-slate-200 pb-8">
+            <span
+              className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.34em]"
+              style={{ backgroundColor: palette.soft, color: palette.text }}>
+              {template.category} • {paper.label}
+            </span>
+
+            <div>
+              <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
+                {personal.fullName || "Rahman Badio"}
+              </h1>
+              <p className="mt-3 max-w-3xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
+                {personal.title || "Backend Software Engineering Intern"}
+              </p>
+            </div>
+
+            <p className="max-w-4xl text-sm leading-7 text-[#475569] sm:text-base">
+              {summaryText}
             </p>
-          </section>
 
-          <section className="space-y-4 border-t border-slate-200 pt-8">
-            <SectionHeading
-              eyebrow="Pendidikan"
-              title="Riwayat akademik"
-              description="Sediakan nama universitas dan jurusan untuk melengkapi identitas akademik." />
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {contactItems.map((item) => (
+                <ContactItem key={item.label} {...item} />
+              ))}
+            </div>
+          </header>
 
-            <div className="space-y-3">
-              {educationItems.map((edu) => (
-                <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl bg-[#F8FAFCB3] p-4">
-                  <div className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#2563EB] shadow-sm">
-                      <FiBookOpen className="text-base" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-base font-bold text-[#1E293B]">{edu.year}</p>
-                      <p className="mt-1 text-sm font-semibold text-slate-700">{edu.school}</p>
-                      <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+          <div className="space-y-8">
+            <section className="space-y-4">
+              <SectionHeading
+                eyebrow="Pendidikan"
+                title="Riwayat akademik"
+                description="Template full-text menempatkan pendidikan lebih awal agar cocok untuk jurusan yang banyak menilai latar akademik." />
+
+              <div className="space-y-3">
+                {educationItems.map((edu) => (
+                  <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl border border-slate-200 bg-[#F8FAFCB3] p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#2563EB] shadow-sm">
+                        <FiBookOpen className="text-base" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-base font-bold text-[#1E293B]">{edu.year}</p>
+                        <p className="mt-1 text-sm font-semibold text-slate-700">{edu.school}</p>
+                        <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+                      </div>
                     </div>
-                  </div>
-                </article>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <SectionHeading
+                eyebrow="Pengalaman"
+                title="Catatan profesional"
+                description="Berguna untuk jurusan hukum, sastra, administrasi, atau posisi yang memerlukan deskripsi naratif." />
+
+              <div className="space-y-1">
+                {experienceItems.map((item, index) => (
+                  <TimelineItem
+                    key={`${item.role}-${index}`}
+                    item={item}
+                    isLast={index === experienceItems.length - 1}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <SectionHeading
+                eyebrow="Proyek"
+                title="Portofolio pilihan"
+                description="Kartu proyek tetap dipertahankan, tetapi disusun sesederhana mungkin supaya narasinya lebih dominan." />
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {projectItems.map((project) => (
+                  <ProjectCard key={project.name} project={project} />
+                ))}
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <SectionHeading
+                eyebrow="Keahlian Teknis"
+                title="Skill utama"
+                description="Daftar skill tetap ada di bagian akhir agar template terasa benar-benar full tulisan." />
+
+              <div className="flex flex-wrap gap-2">
+                {skillItems.length > 0 ? (
+                  skillItems.map((skill) => <Pill key={skill}>{skill}</Pill>)
+                ) : (
+                  <p className="text-sm text-[#475569]">Keahlian belum ditambahkan.</p>
+                )}
+              </div>
+            </section>
+          </div>
+        </div>
+      ) : isAcademicLayout ? (
+        <div className="space-y-8">
+          <header className="grid gap-6 border-b border-slate-200 pb-8 lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="space-y-4">
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.34em]"
+                style={{ backgroundColor: palette.soft, color: palette.text }}>
+                {template.category} • {paper.label}
+              </span>
+
+              <div>
+                <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
+                  {personal.fullName || "Rahman Badio"}
+                </h1>
+                <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
+                  {majorLabel}
+                </p>
+              </div>
+
+              <p className="max-w-3xl text-sm leading-7 text-[#475569] sm:text-base">
+                {summaryText}
+              </p>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {contactItems.map((item) => (
+                  <ContactItem key={item.label} {...item} />
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] border border-slate-200 bg-[#F8FAFCB3] p-5">
+              <SectionHeading
+                eyebrow="Fokus Akademik"
+                title="Jurusan & konteks"
+                description="Layout ini menonjolkan jalur pendidikan lebih dulu, lalu pengalaman dan proyek sebagai bukti pendukung." />
+
+              <div className="mt-5 space-y-3">
+                {educationItems.map((edu) => (
+                  <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl border border-slate-200 bg-white p-4">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">{edu.year}</p>
+                    <p className="mt-2 text-base font-bold text-[#1E293B]">{edu.school}</p>
+                    <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </header>
+
+          <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr]">
+            <aside className="space-y-8">
+              <section className="space-y-4">
+                <SectionHeading
+                  eyebrow="Pendidikan"
+                  title="Riwayat akademik"
+                  description="Cocok untuk jurusan yang ingin menonjolkan universitas, gelar, dan status studi." />
+
+                <div className="space-y-3">
+                  {educationItems.map((edu) => (
+                    <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl bg-[#F8FAFCB3] p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#2563EB] shadow-sm">
+                          <FiBookOpen className="text-base" />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-base font-bold text-[#1E293B]">{edu.year}</p>
+                          <p className="mt-1 text-sm font-semibold text-slate-700">{edu.school}</p>
+                          <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Keahlian"
+                  title="Skill utama"
+                  description="Daftar skill ditampilkan ringkas agar fokus tetap ada pada portofolio akademik." />
+
+                <div className="flex flex-wrap gap-2">
+                  {skillItems.length > 0 ? (
+                    skillItems.map((skill) => <Pill key={skill}>{skill}</Pill>)
+                  ) : (
+                    <p className="text-sm text-[#475569]">Keahlian belum ditambahkan.</p>
+                  )}
+                </div>
+              </section>
+            </aside>
+
+            <section className="space-y-8">
+              <section className="space-y-4">
+                <SectionHeading
+                  eyebrow="Pengalaman"
+                  title="Timeline kegiatan"
+                  description="Pengalaman kerja, organisasi, atau riset tetap menjadi bukti pendukung yang mudah dibaca." />
+
+                <div className="space-y-1">
+                  {experienceItems.map((item, index) => (
+                    <TimelineItem
+                      key={`${item.role}-${index}`}
+                      item={item}
+                      isLast={index === experienceItems.length - 1}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Proyek"
+                  title="Sorotan portofolio"
+                  description="Cocok untuk skripsi, penelitian, atau proyek akademik yang ingin dipertahankan sebagai referensi." />
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {projectItems.map((project) => (
+                    <ProjectCard key={project.name} project={project} />
+                  ))}
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-8">
+          <div className="mb-2 flex flex-col gap-6 border-b border-slate-200 pb-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-4">
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.34em]"
+                style={{ backgroundColor: palette.soft, color: palette.text }}>
+                {template.category} • {paper.label}
+              </span>
+
+              <div>
+                <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
+                  {personal.fullName || "Rahman Badio"}
+                </h1>
+                <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
+                  {personal.title || "Backend Software Engineering Intern"}
+                </p>
+              </div>
+
+              <p className="max-w-3xl text-sm leading-7 text-[#475569] sm:text-base">
+                {summaryText}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {(template.idealFor || []).map((label) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 xl:w-xl">
+              {contactItems.map((item) => (
+                <ContactItem key={item.label} {...item} />
               ))}
             </div>
-          </section>
+          </div>
 
-          <section className="space-y-4 border-t border-slate-200 pt-8">
-            <SectionHeading
-              eyebrow="Keahlian Teknis"
-              title="Skill utama"
-              description="Pill/tag sederhana dengan aksen biru untuk menonjolkan stack yang paling relevan." />
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <aside className="space-y-8">
+              <section className="space-y-3">
+                <SectionHeading
+                  eyebrow="Tentang Saya"
+                  title="Profil singkat"
+                  description="Ringkasan fokus profesional dan arah minat teknis yang ingin ditonjolkan." />
+                <p className="mt-4 text-sm leading-7 text-[#475569]">{summaryText}</p>
+              </section>
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              {skillItems.length > 0 ? (
-                skillItems.map((skill) => <Pill key={skill}>{skill}</Pill>)
-              ) : (
-                <p className="text-sm text-[#475569]">Keahlian belum ditambahkan.</p>
-              )}
-            </div>
-          </section>
-        </aside>
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Pendidikan"
+                  title="Riwayat akademik"
+                  description="Sediakan nama universitas dan jurusan untuk melengkapi identitas akademik." />
 
-        <section className="space-y-8">
-          <section className="space-y-4">
-            <SectionHeading
-              eyebrow="Pengalaman"
-              title="Timeline magang"
-              description="Tampilkan progres internship saat ini dengan bullet point yang bisa diisi ulang." />
+                <div className="space-y-3">
+                  {educationItems.map((edu) => (
+                    <article key={`${edu.school}-${edu.degree}`} className="rounded-2xl bg-[#F8FAFCB3] p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#2563EB] shadow-sm">
+                          <FiBookOpen className="text-base" />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-base font-bold text-[#1E293B]">{edu.year}</p>
+                          <p className="mt-1 text-sm font-semibold text-slate-700">{edu.school}</p>
+                          <p className="mt-1 text-sm leading-6 text-[#475569]">{edu.degree}</p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
-            <div className="space-y-1">
-              {experienceItems.map((item, index) => (
-                <TimelineItem
-                  key={`${item.role}-${index}`}
-                  item={item}
-                  isLast={index === experienceItems.length - 1}
-                />
-              ))}
-            </div>
-          </section>
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Keahlian Teknis"
+                  title="Skill utama"
+                  description="Pill/tag sederhana dengan aksen biru untuk menonjolkan stack yang paling relevan." />
 
-          <section className="space-y-4 border-t border-slate-200 pt-8">
-            <SectionHeading
-              eyebrow="Proyek"
-              title="Sorotan portofolio"
-              description="Kartu proyek dibuat ringkas, bersih, dan memiliki efek hover halus untuk menambah interaksi visual." />
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {skillItems.length > 0 ? (
+                    skillItems.map((skill) => <Pill key={skill}>{skill}</Pill>)
+                  ) : (
+                    <p className="text-sm text-[#475569]">Keahlian belum ditambahkan.</p>
+                  )}
+                </div>
+              </section>
+            </aside>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              {projectItems.map((project) => (
-                <ProjectCard key={project.name} project={project} />
-              ))}
-            </div>
-          </section>
-        </section>
-      </div>
+            <section className="space-y-8">
+              <section className="space-y-4">
+                <SectionHeading
+                  eyebrow="Pengalaman"
+                  title="Timeline magang"
+                  description="Tampilkan progres internship saat ini dengan bullet point yang bisa diisi ulang." />
+
+                <div className="space-y-1">
+                  {experienceItems.map((item, index) => (
+                    <TimelineItem
+                      key={`${item.role}-${index}`}
+                      item={item}
+                      isLast={index === experienceItems.length - 1}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-4 border-t border-slate-200 pt-8">
+                <SectionHeading
+                  eyebrow="Proyek"
+                  title="Sorotan portofolio"
+                  description="Kartu proyek dibuat ringkas, bersih, dan memiliki efek hover halus untuk menambah interaksi visual." />
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {projectItems.map((project) => (
+                    <ProjectCard key={project.name} project={project} />
+                  ))}
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      )}
     </article>
   );
 }

@@ -67,6 +67,39 @@ export default function Builder() {
     setCvData((prev) => ({ ...prev, skills: e.target.value }));
   };
 
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const photoUrl = typeof reader.result === "string" ? reader.result : "";
+
+      setCvData((prev) => ({
+        ...prev,
+        personal: {
+          ...prev.personal,
+          photoUrl,
+        },
+      }));
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handlePhotoClear = () => {
+    setCvData((prev) => ({
+      ...prev,
+      personal: {
+        ...prev.personal,
+        photoUrl: "",
+      },
+    }));
+  };
+
   const handleEducationChange = (index, field, value) => {
     setCvData((prev) => ({
       ...prev,
@@ -183,6 +216,59 @@ export default function Builder() {
                   <Input label="Telepon" name="phone" value={cvData.personal.phone} onChange={handlePersonalChange} />
                 </div>
                 <Input label="Alamat" name="address" value={cvData.personal.address} onChange={handlePersonalChange} />
+
+                <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-4">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="space-y-2">
+                      <p className="text-sm font-semibold text-slate-900">Foto Profil</p>
+                      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+                        Tambahkan foto formal untuk template yang memakai foto. Foto disimpan lokal agar tetap aman saat preview dan export PDF.
+                      </p>
+                      {cvData.personal.photoUrl ? (
+                        <button
+                          type="button"
+                          onClick={handlePhotoClear}
+                          className="text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-slate-950">
+                          Hapus foto
+                        </button>
+                      ) : null}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-4">
+                      <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        {cvData.personal.photoUrl ? (
+                          <img
+                            src={cvData.personal.photoUrl}
+                            alt="Preview foto profil"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-sm font-black uppercase tracking-[0.24em] text-slate-400">
+                            {cvData.personal.fullName
+                              ? cvData.personal.fullName
+                                  .split(" ")
+                                  .filter(Boolean)
+                                  .slice(0, 2)
+                                  .map((part) => part[0])
+                                  .join("")
+                                  .toUpperCase()
+                              : "CV"}
+                          </span>
+                        )}
+                      </div>
+
+                      <label className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950">
+                        Pilih Foto
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          className="sr-only"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="flex flex-col gap-2 w-full">
                   <label className="text-sm font-semibold text-slate-700">

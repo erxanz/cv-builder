@@ -8,7 +8,7 @@ import {
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const templateStats = [
-  { value: "4", label: "template curated" },
+  { value: String(CV_TEMPLATES.length), label: "template curated" },
   { value: "ATS", label: "struktur aman dipindai" },
   { value: "1 klik", label: "lanjut ke builder" },
 ];
@@ -116,11 +116,11 @@ export default function Templates() {
               Template lineup
             </p>
             <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-              Empat arah visual, satu standar yang sama: rapi.
+              Banyak arah visual, satu standar yang sama: rapi.
             </h2>
           </div>
           <p className="max-w-2xl text-sm leading-6 text-slate-600">
-            Setiap kartu menampilkan karakter yang berbeda, tetapi semuanya tetap dibatasi oleh struktur yang sederhana dan mudah dipindai.
+            Setiap kartu menampilkan karakter yang berbeda untuk kebutuhan korporat, akademik, kreatif, foto, dan full-text, tetapi semuanya tetap dibatasi oleh struktur yang sederhana dan mudah dipindai.
           </p>
         </div>
 
@@ -147,6 +147,19 @@ export default function Templates() {
                 <p className="mt-2 text-sm leading-6 text-slate-600">
                   {tpl.description}
                 </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                    {tpl.layout}
+                  </span>
+                  {(tpl.idealFor || []).slice(0, 2).map((major) => (
+                    <span
+                      key={major}
+                      className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                      {major}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-5 p-5">
@@ -160,17 +173,36 @@ export default function Templates() {
                   </div>
 
                   <div className="mt-4 grid gap-3 sm:grid-cols-[0.9fr_1.1fr]">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
-                      <div className="h-7 w-7 rounded-xl bg-slate-950" />
-                      <div className="mt-4 h-2 w-16 rounded-full bg-slate-900/90" />
-                      <div className="mt-2 h-2 w-12 rounded-full bg-slate-200" />
-                    </div>
-                    <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
-                      <div className="h-2 w-11/12 rounded-full bg-slate-900/80" />
-                      <div className="h-2 w-4/5 rounded-full bg-slate-300" />
-                      <div className="h-2 w-3/5 rounded-full bg-slate-200" />
-                      <div className="h-2 w-2/3 rounded-full bg-slate-100" />
-                    </div>
+                    {tpl.layout === "photo" ? (
+                      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
+                        <div className="h-20 rounded-2xl bg-[linear-gradient(180deg,#e2e8f0_0%,#ffffff_100%)]" />
+                        <div className="mt-4 h-2 w-16 rounded-full bg-slate-900/90" />
+                        <div className="mt-2 h-2 w-12 rounded-full bg-slate-200" />
+                      </div>
+                    ) : (
+                      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
+                        <div className="h-7 w-7 rounded-xl bg-slate-950" />
+                        <div className="mt-4 h-2 w-16 rounded-full bg-slate-900/90" />
+                        <div className="mt-2 h-2 w-12 rounded-full bg-slate-200" />
+                      </div>
+                    )}
+
+                    {tpl.layout === "fulltext" ? (
+                      <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
+                        <div className="h-2 w-11/12 rounded-full bg-slate-900/80" />
+                        <div className="h-2 w-10/12 rounded-full bg-slate-300" />
+                        <div className="h-2 w-9/12 rounded-full bg-slate-200" />
+                        <div className="h-2 w-8/12 rounded-full bg-slate-100" />
+                        <div className="h-2 w-7/12 rounded-full bg-slate-100" />
+                      </div>
+                    ) : (
+                      <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-950/5">
+                        <div className="h-2 w-11/12 rounded-full bg-slate-900/80" />
+                        <div className="h-2 w-4/5 rounded-full bg-slate-300" />
+                        <div className="h-2 w-3/5 rounded-full bg-slate-200" />
+                        <div className="h-2 w-2/3 rounded-full bg-slate-100" />
+                      </div>
+                    )}
                   </div>
                 </div>
 
