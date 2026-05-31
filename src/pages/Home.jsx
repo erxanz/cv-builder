@@ -13,7 +13,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-100 text-slate-900">
+    <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-slate-100 text-slate-900">
       <header className="container mx-auto px-4 py-20">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
@@ -29,7 +29,7 @@ export default function Home() {
 
           <div className="order-first -mb-6 lg:order-last lg:mb-0">
             <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow">
-              <div className="mb-4 h-48 rounded bg-gradient-to-b from-sky-50 to-white" />
+              <div className="mb-4 h-48 rounded bg-linear-to-b from-sky-50 to-white" />
               <div className="text-sm text-slate-600">Contoh Template</div>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <div className="h-12 rounded bg-slate-50" />
