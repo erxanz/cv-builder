@@ -43,7 +43,9 @@ export default function Preview() {
         setProgress((p) => Math.min(90, p + Math.random() * 12));
       }, 300);
 
-      await exportPDF("cv-render-area", "My_Professional_CV.pdf", paperSize);
+      await exportPDF("cv-render-area", "My_Professional_CV.pdf", paperSize, {
+        fitToSinglePage: true,
+      });
 
       // clear any previous error message on success
       setErrorMessage("");
@@ -65,9 +67,10 @@ export default function Preview() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#1E293B]">
       <main className="mx-auto max-w-400 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
-          <section className="overflow-auto rounded-4xl border border-slate-200 bg-white p-6 shadow-soft">
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
+          <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+            <div className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
                   Preview
@@ -107,6 +110,7 @@ export default function Preview() {
                   {isGenerating ? "Membuat PDF..." : "Unduh PDF"}
                 </Button>
               </div>
+              </div>
             </div>
 
             <Toast
@@ -120,7 +124,7 @@ export default function Preview() {
               }}
             />
 
-            <div className="overflow-x-auto rounded-3xl bg-slate-50 p-6">
+            <div className="overflow-x-auto bg-slate-100/60 p-3 sm:p-4 lg:p-5">
               <div className="mx-auto w-fit">
                 <ProfessionalCV
                   data={cvData}

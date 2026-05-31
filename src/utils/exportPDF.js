@@ -168,6 +168,7 @@ export const exportPDF = async (
   elementId,
   filename = "Curriculum_Vitae.pdf",
   paperSize = "a4",
+  options = {},
 ) => {
   const element = document.getElementById(elementId);
 
@@ -177,6 +178,7 @@ export const exportPDF = async (
   }
 
   const paper = getPaperSizeById(paperSize);
+  const { fitToSinglePage = true } = options;
 
   try {
     if (document.fonts?.ready) {
@@ -200,7 +202,12 @@ export const exportPDF = async (
         }
 
         clonedElement.style.margin = "0";
+        clonedElement.style.border = "none";
+        clonedElement.style.borderRadius = "0";
         clonedElement.style.boxShadow = "none";
+        clonedElement.style.width = `${paper.width}mm`;
+        clonedElement.style.minHeight = `${paper.height}mm`;
+        clonedElement.style.background = "#ffffff";
         sanitizeUnsupportedColors(clonedElement, clonedDoc);
       },
     });
@@ -219,49 +226,61 @@ export const exportPDF = async (
     });
 
     const pixelsPerMm = canvas.width / paper.width;
-    const sliceHeightPx = Math.max(1, Math.floor(paper.height * pixelsPerMm));
-    let remainingHeight = canvas.height;
-    let offsetY = 0;
-    let firstPage = true;
+    const contentHeightMm = canvas.height / pixelsPerMm;
 
-    while (remainingHeight > 0) {
-      const currentSliceHeight = Math.min(sliceHeightPx, remainingHeight);
-      const sliceCanvas = document.createElement("canvas");
-      sliceCanvas.width = canvas.width;
-      sliceCanvas.height = currentSliceHeight;
+    if (fitToSinglePage) {
+      const scale = Math.min(1, paper.height / contentHeightMm);
+      const drawWidth = paper.width * scale;
+      const drawHeight = contentHeightMm * scale;
+      const offsetX = (paper.width - drawWidth) / 2;
+      const imageDataUrl = canvas.toDataURL("image/png");
 
-      const sliceContext = sliceCanvas.getContext("2d");
+      pdf.addImage(imageDataUrl, "PNG", offsetX, 0, drawWidth, drawHeight);
+    } else {
+      const sliceHeightPx = Math.max(1, Math.floor(paper.height * pixelsPerMm));
+      let remainingHeight = canvas.height;
+      let offsetY = 0;
+      let firstPage = true;
 
-      if (!sliceContext) {
-        throw new Error("Tidak bisa memotong halaman PDF.");
+      while (remainingHeight > 0) {
+        const currentSliceHeight = Math.min(sliceHeightPx, remainingHeight);
+        const sliceCanvas = document.createElement("canvas");
+        sliceCanvas.width = canvas.width;
+        sliceCanvas.height = currentSliceHeight;
+
+        const sliceContext = sliceCanvas.getContext("2d");
+
+        if (!sliceContext) {
+          throw new Error("Tidak bisa memotong halaman PDF.");
+        }
+
+        sliceContext.fillStyle = "#ffffff";
+        sliceContext.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+        sliceContext.drawImage(
+          canvas,
+          0,
+          offsetY,
+          canvas.width,
+          currentSliceHeight,
+          0,
+          0,
+          canvas.width,
+          currentSliceHeight,
+        );
+
+        const sliceDataUrl = sliceCanvas.toDataURL("image/png");
+        const sliceHeightMm = currentSliceHeight / pixelsPerMm;
+
+        if (!firstPage) {
+          pdf.addPage([paper.width, paper.height], "p");
+        }
+
+        pdf.addImage(sliceDataUrl, "PNG", 0, 0, paper.width, sliceHeightMm);
+
+        firstPage = false;
+        offsetY += currentSliceHeight;
+        remainingHeight -= currentSliceHeight;
       }
-
-      sliceContext.fillStyle = "#ffffff";
-      sliceContext.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-      sliceContext.drawImage(
-        canvas,
-        0,
-        offsetY,
-        canvas.width,
-        currentSliceHeight,
-        0,
-        0,
-        canvas.width,
-        currentSliceHeight,
-      );
-
-      const sliceDataUrl = sliceCanvas.toDataURL("image/png");
-      const sliceHeightMm = currentSliceHeight / pixelsPerMm;
-
-      if (!firstPage) {
-        pdf.addPage([paper.width, paper.height], "p");
-      }
-
-      pdf.addImage(sliceDataUrl, "PNG", 0, 0, paper.width, sliceHeightMm);
-
-      firstPage = false;
-      offsetY += currentSliceHeight;
-      remainingHeight -= currentSliceHeight;
     }
 
     pdf.save(filename);
