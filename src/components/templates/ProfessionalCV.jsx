@@ -15,38 +15,38 @@ import { getPaperSizeById, getTemplateById } from "../../data/cv";
 
 const defaultEducation = [
   {
-    school: "Nama Universitas",
-    degree: "Nama Jurusan",
-    year: "Mahasiswa Semester 6",
+    school: "Nama Institusi",
+    degree: "Program Studi atau jurusan",
+    year: "Tahun / Status",
   },
 ];
 
 const defaultExperience = [
   {
-    company: "Periode Magang Saat Ini",
-    role: "Internship",
-    duration: "Sekarang",
+    company: "Nama perusahaan atau organisasi",
+    role: "Nama peran",
+    duration: "2024 - Sekarang",
     description: "",
     bullets: [
-      "Tulis tugas utama magang di sini.",
-      "Tulis kontribusi teknis atau kolaborasi tim di sini.",
-      "Tulis hasil atau dampak yang terukur di sini.",
+      "Tulis tanggung jawab utama di sini.",
+      "Tulis kontribusi atau pencapaian yang relevan.",
+      "Tulis hasil kerja yang bisa diukur jika ada.",
     ],
   },
 ];
 
 const defaultProjects = [
   {
-    name: "Konfigurasi Web Server Staging",
+    name: "Dashboard Manajemen Tugas",
     summary:
-      "Merancang server menggunakan HG680P STB dengan implementasi Nginx, MySQL, dan Cloudflare Tunnels.",
-    tags: ["Infrastructure", "Nginx", "Cloudflare Tunnels"],
+      "Aplikasi dummy untuk mencatat, memantau, dan menyelesaikan tugas dengan alur yang sederhana.",
+    tags: ["Web App", "CRUD", "Dashboard"],
   },
   {
-    name: "Membangun Bookshelf App",
+    name: "Portal Portofolio Pribadi",
     summary:
-      "Pengembangan aplikasi manajemen buku yang fokus pada struktur data yang rapi dan alur penggunaan yang sederhana.",
-    tags: ["Web App", "CRUD", "Productivity"],
+      "Contoh proyek untuk menampilkan profil, pengalaman, dan karya dalam tampilan yang ringkas.",
+    tags: ["Portfolio", "React", "UI"],
   },
 ];
 
@@ -252,7 +252,7 @@ function PhotoFrame({ fullName, photoUrl, majorLabel, palette }) {
                 <div
                   className="mx-auto flex h-24 w-24 items-center justify-center rounded-full text-3xl font-black shadow-sm"
                   style={{ backgroundColor: palette.accent, color: "#ffffff" }}>
-                  {getInitials(fullName || "Rahman Badio") || "CV"}
+                  {getInitials(fullName || "Nama Lengkap") || "CV"}
                 </div>
                 <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
                   Photo ready
@@ -268,7 +268,7 @@ function PhotoFrame({ fullName, photoUrl, majorLabel, palette }) {
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
           Foto profil
         </p>
-        <p className="text-lg font-bold text-[#1E293B]">{fullName || "Rahman Badio"}</p>
+        <p className="text-lg font-bold text-[#1E293B]">{fullName || "Nama Lengkap"}</p>
         <p className="text-sm text-slate-600">{majorLabel}</p>
       </div>
     </div>
@@ -326,10 +326,10 @@ export function ProfessionalCV({
   const projectItems = projects?.length ? projects : defaultProjects;
   const primaryEducation = educationItems[0];
   const majorLabel =
-    primaryEducation?.degree || personal.title || "Nama jurusan belum diisi";
+    primaryEducation?.degree || personal.title || "Program studi atau jurusan";
   const summaryText =
     personal.summary ||
-    "Mahasiswa semester 6 yang sedang menjalani program magang. Memiliki minat kuat pada pengembangan infrastruktur backend, manajemen database, dan teknologi cloud.";
+    "Ringkasan singkat tentang profil profesional, minat utama, dan arah karier yang ingin ditonjolkan.";
   const articleClassName =
     "mx-auto overflow-hidden rounded-[34px] border border-slate-200 bg-white text-[#1E293B] shadow-[0_18px_60px_rgba(15,23,42,0.08)] " +
     (isFullTextLayout ? "p-6 sm:p-10" : "p-5 sm:p-8 lg:p-10");
@@ -352,10 +352,10 @@ export function ProfessionalCV({
 
               <div>
                 <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
-                  {personal.fullName || "Rahman Badio"}
+                  {personal.fullName || "Nama Lengkap"}
                 </h1>
                 <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
-                  {personal.title || "Backend Software Engineering Intern"}
+                  {personal.title || "Posisi atau jurusan"}
                 </p>
               </div>
 
@@ -371,7 +371,7 @@ export function ProfessionalCV({
             </div>
 
             <PhotoFrame
-              fullName={personal.fullName || "Rahman Badio"}
+              fullName={personal.fullName || "Nama Lengkap"}
               photoUrl={personal.photoUrl}
               majorLabel={majorLabel}
               palette={palette}
@@ -472,10 +472,10 @@ export function ProfessionalCV({
 
             <div>
               <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
-                {personal.fullName || "Rahman Badio"}
+                {personal.fullName || "Nama Lengkap"}
               </h1>
               <p className="mt-3 max-w-3xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
-                {personal.title || "Backend Software Engineering Intern"}
+                {personal.title || "Posisi atau jurusan"}
               </p>
             </div>
 
@@ -573,7 +573,7 @@ export function ProfessionalCV({
 
               <div>
                 <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
-                  {personal.fullName || "Rahman Badio"}
+                  {personal.fullName || "Nama Lengkap"}
                 </h1>
                 <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
                   {majorLabel}
@@ -696,10 +696,10 @@ export function ProfessionalCV({
 
               <div>
                 <h1 className="text-4xl font-black tracking-tight text-[#1E293B] sm:text-5xl">
-                  {personal.fullName || "Rahman Badio"}
+                  {personal.fullName || "Nama Lengkap"}
                 </h1>
                 <p className="mt-3 max-w-2xl text-lg font-semibold sm:text-xl" style={{ color: palette.accent }}>
-                  {personal.title || "Backend Software Engineering Intern"}
+                  {personal.title || "Posisi atau jurusan"}
                 </p>
               </div>
 

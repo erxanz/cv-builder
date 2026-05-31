@@ -101,10 +101,10 @@ export default function Home() {
                       Preview CV
                     </div>
                     <div className="mt-2 text-2xl font-black tracking-tight text-slate-950">
-                      Rahman Badio
+                      Nama Lengkap
                     </div>
                     <div className="mt-1 text-sm font-semibold text-slate-600">
-                      Mahasiswa & Intern
+                      Profil Dummy
                     </div>
                   </div>
                   <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-right shadow-sm">
@@ -119,7 +119,7 @@ export default function Home() {
                       Ringkasan
                     </div>
                     <p className="mt-3 text-sm leading-6 text-slate-700">
-                      Mahasiswa yang fokus pada backend dan sistem yang andal, dengan pengalaman magang dan proyek mandiri.
+                      Ringkasan dummy untuk menampilkan bagaimana CV akan terlihat tanpa memakai data pribadi.
                     </p>
                   </div>
                   <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">

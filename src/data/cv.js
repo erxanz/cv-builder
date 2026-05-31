@@ -119,53 +119,59 @@ export const CV_TEMPLATES = [
 export const DEFAULT_TEMPLATE_ID = CV_TEMPLATES[0].id;
 export const DEFAULT_PAPER_SIZE = PAPER_SIZES.a4.id;
 
+export const STORAGE_KEYS = {
+  cvData: "cv_data_autosave_v2",
+  selectedTemplate: "cv_selected_template",
+  paperSize: "cv_paper_size",
+};
+
 export const INITIAL_CV_DATA = {
   personal: {
-    fullName: "Rahman Badio",
-    title: "Backend Software Engineering Intern",
+    fullName: "Nama Lengkap",
+    title: "Posisi atau jurusan",
     photoUrl: "",
-    email: "email@domain.com",
-    phone: "+62 812 0000 0000",
-    github: "github.com/rahmanbadio",
-    linkedin: "linkedin.com/in/rahmanbadio",
+    email: "nama@domain.com",
+    phone: "+62 812 3456 7890",
+    github: "github.com/username",
+    linkedin: "linkedin.com/in/username",
     summary:
-      "Mahasiswa semester 6 yang sedang menjalani program magang. Memiliki minat kuat pada pengembangan infrastruktur backend, manajemen database, dan teknologi cloud.",
+      "Ringkasan singkat tentang profil profesional, minat utama, dan arah karier yang ingin ditonjolkan.",
   },
   education: [
     {
-      school: "Nama Universitas",
-      degree: "Nama Jurusan",
-      year: "Mahasiswa Semester 6",
+      school: "Nama Institusi",
+      degree: "Program Studi atau jurusan",
+      year: "Tahun / Status",
     },
   ],
   experience: [
     {
-      company: "Periode Magang Saat Ini",
-      role: "Internship",
-      duration: "Sekarang",
+      company: "Nama perusahaan atau organisasi",
+      role: "Nama peran",
+      duration: "2024 - Sekarang",
       description: "",
       bullets: [
-        "Tulis tugas utama magang di sini.",
-        "Tulis kontribusi teknis atau kolaborasi tim di sini.",
-        "Tulis hasil atau dampak yang terukur di sini.",
+        "Tulis tanggung jawab utama di sini.",
+        "Tulis kontribusi atau pencapaian yang relevan.",
+        "Tulis hasil kerja yang bisa diukur jika ada.",
       ],
     },
   ],
   projects: [
     {
-      name: "Konfigurasi Web Server Staging",
+      name: "Dashboard Manajemen Tugas",
       summary:
-        "Merancang server menggunakan HG680P STB dengan implementasi Nginx, MySQL, dan Cloudflare Tunnels.",
-      tags: ["Infrastructure", "Nginx", "Cloudflare Tunnels"],
+        "Aplikasi dummy untuk mencatat, memantau, dan menyelesaikan tugas dengan alur yang sederhana.",
+      tags: ["Web App", "CRUD", "Dashboard"],
     },
     {
-      name: "Membangun Bookshelf App",
+      name: "Portal Portofolio Pribadi",
       summary:
-        "Pengembangan aplikasi manajemen buku dengan alur yang sederhana, terstruktur, dan mudah dipelihara.",
-      tags: ["Web App", "Productivity", "CRUD"],
+        "Contoh proyek untuk menampilkan profil, pengalaman, dan karya dalam tampilan yang ringkas.",
+      tags: ["Portfolio", "React", "UI"],
     },
   ],
-  skills: "Nginx, MySQL, PostgreSQL, Docker, Supabase",
+  skills: "React, JavaScript, Tailwind CSS, Node.js, Git",
 };
 
 export function getTemplateById(templateId) {

@@ -8,6 +8,7 @@ import {
   DEFAULT_TEMPLATE_ID,
   INITIAL_CV_DATA,
   PAPER_SIZES,
+  STORAGE_KEYS,
   getTemplateById,
 } from "../data/cv";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -15,9 +16,9 @@ import Toast from "../components/ui/Toast";
 
 export default function Preview() {
   const navigate = useNavigate();
-  const [cvData] = useLocalStorage("cv_data_autosave", INITIAL_CV_DATA);
+  const [cvData] = useLocalStorage(STORAGE_KEYS.cvData, INITIAL_CV_DATA);
   const [paperSize, setPaperSize] = useLocalStorage(
-    "cv_paper_size",
+    STORAGE_KEYS.paperSize,
     DEFAULT_PAPER_SIZE,
   );
   const [isGenerating, setIsGenerating] = React.useState(false);
@@ -25,7 +26,7 @@ export default function Preview() {
   const [progress, setProgress] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [selectedTemplateId] = useLocalStorage(
-    "cv_selected_template",
+    STORAGE_KEYS.selectedTemplate,
     DEFAULT_TEMPLATE_ID,
   );
   const selectedTemplate = getTemplateById(selectedTemplateId);

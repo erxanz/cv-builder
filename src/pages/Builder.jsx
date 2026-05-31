@@ -9,6 +9,7 @@ import {
   DEFAULT_TEMPLATE_ID,
   INITIAL_CV_DATA,
   PAPER_SIZES,
+  STORAGE_KEYS,
   getTemplateById,
 } from "../data/cv";
 
@@ -38,15 +39,15 @@ const steps = [
 export default function Builder() {
   const navigate = useNavigate();
   const [cvData, setCvData] = useLocalStorage(
-    "cv_data_autosave",
+    STORAGE_KEYS.cvData,
     INITIAL_CV_DATA,
   );
   const [selectedTemplateId] = useLocalStorage(
-    "cv_selected_template",
+    STORAGE_KEYS.selectedTemplate,
     DEFAULT_TEMPLATE_ID,
   );
   const [paperSize, setPaperSize] = useLocalStorage(
-    "cv_paper_size",
+    STORAGE_KEYS.paperSize,
     DEFAULT_PAPER_SIZE,
   );
   const [currentStep, setCurrentStep] = useState(0);
