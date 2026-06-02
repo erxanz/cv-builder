@@ -156,13 +156,16 @@ export default function Builder() {
   return (
     <div className="min-h-screen bg-slate-50">
       <main className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-[1.05fr_0.95fr] lg:px-6 xl:px-8">
-        <section className="relative rounded-[28px] border border-slate-200 bg-white p-5 shadow-soft sm:p-8 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-4">
+        <section className="relative min-h-180 rounded-[28px] border border-slate-200 bg-white p-5 shadow-soft sm:p-8 lg:max-h-[calc(100vh-160px)] lg:overflow-y-auto lg:pr-4">
+          {" "}
           <div className="mb-6 flex items-center justify-between gap-4 rounded-md bg-slate-950 px-3 py-2 text-white">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">
                 Alur
               </p>
-              <h2 className="mt-1 text-lg font-bold">{selectedTemplate.name}</h2>
+              <h2 className="mt-1 text-lg font-bold">
+                {selectedTemplate.name}
+              </h2>
             </div>
             <div className="flex items-center gap-3">
               <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/80">
@@ -190,27 +193,61 @@ export default function Builder() {
               </button>
             ))}
           </div>
-
           <div className="space-y-6">
             {currentStep === 0 && (
               <div className="space-y-5">
                 <div className="mb-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 1</p>
-                  <h2 className="mt-1 text-xl font-black text-slate-950">Informasi Pribadi</h2>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    Step 1
+                  </p>
+                  <h2 className="mt-1 text-xl font-black text-slate-950">
+                    Informasi Pribadi
+                  </h2>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <Input label="Nama Lengkap" name="fullName" value={cvData.personal.fullName} onChange={handlePersonalChange} />
-                  <Input label="Posisi / Gelar" name="title" placeholder="Misal: Mahasiswa / Software Engineer" value={cvData.personal.title} onChange={handlePersonalChange} />
-                  <Input label="Email" name="email" type="email" value={cvData.personal.email} onChange={handlePersonalChange} />
-                  <Input label="Telepon" name="phone" value={cvData.personal.phone} onChange={handlePersonalChange} />
+                  <Input
+                    label="Nama Lengkap"
+                    name="fullName"
+                    value={cvData.personal.fullName}
+                    onChange={handlePersonalChange}
+                  />
+                  <Input
+                    label="Posisi / Gelar"
+                    name="title"
+                    placeholder="Misal: Mahasiswa / Software Engineer"
+                    value={cvData.personal.title}
+                    onChange={handlePersonalChange}
+                  />
+                  <Input
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={cvData.personal.email}
+                    onChange={handlePersonalChange}
+                  />
+                  <Input
+                    label="Telepon"
+                    name="phone"
+                    value={cvData.personal.phone}
+                    onChange={handlePersonalChange}
+                  />
                 </div>
-                <Input label="Alamat" name="address" value={cvData.personal.address} onChange={handlePersonalChange} />
+                <Input
+                  label="Alamat"
+                  name="address"
+                  value={cvData.personal.address}
+                  onChange={handlePersonalChange}
+                />
 
                 <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50/70 p-3">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="space-y-2">
-                      <p className="text-sm font-semibold text-slate-900">Foto Profil</p>
-                      <p className="max-w-xl text-sm leading-5 text-slate-600">Tambahkan foto formal jika diperlukan (opsional).</p>
+                      <p className="text-sm font-semibold text-slate-900">
+                        Foto Profil
+                      </p>
+                      <p className="max-w-xl text-sm leading-5 text-slate-600">
+                        Tambahkan foto formal jika diperlukan (opsional).
+                      </p>
                       {cvData.personal.photoUrl ? (
                         <button
                           type="button"
@@ -276,17 +313,33 @@ export default function Builder() {
               <div className="space-y-5">
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 2</p>
-                    <h2 className="mt-1 text-xl font-black text-slate-950">Pendidikan</h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      Step 2
+                    </p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">
+                      Pendidikan
+                    </h2>
                   </div>
-                  <Button variant="secondary" onClick={addEducation} className="px-3 py-2">Tambah</Button>
+                  <Button
+                    variant="secondary"
+                    onClick={addEducation}
+                    className="px-3 py-2">
+                    Tambah
+                  </Button>
                 </div>
                 <div className="space-y-4">
                   {cvData.education.map((education, index) => (
-                    <div key={`${education.school}-${index}`} className="space-y-4 border-l-2 border-slate-200 pl-4">
+                    <div
+                      key={`${education.school}-${index}`}
+                      className="space-y-4 border-l-2 border-slate-200 pl-4">
                       <div className="flex items-center justify-between gap-3 pb-1">
-                        <p className="text-sm font-semibold text-slate-900">Riwayat Pendidikan {index + 1}</p>
-                        <Button variant="ghost" onClick={() => removeEducation(index)} disabled={cvData.education.length === 1}>
+                        <p className="text-sm font-semibold text-slate-900">
+                          Riwayat Pendidikan {index + 1}
+                        </p>
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeEducation(index)}
+                          disabled={cvData.education.length === 1}>
                           Hapus
                         </Button>
                       </div>
@@ -294,17 +347,31 @@ export default function Builder() {
                         <Input
                           label="Nama Sekolah / Kampus"
                           value={education.school}
-                          onChange={(e) => handleEducationChange(index, "school", e.target.value)}
+                          onChange={(e) =>
+                            handleEducationChange(
+                              index,
+                              "school",
+                              e.target.value,
+                            )
+                          }
                         />
                         <Input
                           label="Gelar / Jurusan"
                           value={education.degree}
-                          onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
+                          onChange={(e) =>
+                            handleEducationChange(
+                              index,
+                              "degree",
+                              e.target.value,
+                            )
+                          }
                         />
                         <Input
                           label="Tahun"
                           value={education.year}
-                          onChange={(e) => handleEducationChange(index, "year", e.target.value)}
+                          onChange={(e) =>
+                            handleEducationChange(index, "year", e.target.value)
+                          }
                         />
                       </div>
                     </div>
@@ -317,17 +384,33 @@ export default function Builder() {
               <div className="space-y-5">
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 3</p>
-                    <h2 className="mt-1 text-xl font-black text-slate-950">Pengalaman</h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      Step 3
+                    </p>
+                    <h2 className="mt-1 text-xl font-black text-slate-950">
+                      Pengalaman
+                    </h2>
                   </div>
-                  <Button variant="secondary" onClick={addExperience} className="px-3 py-2">Tambah</Button>
+                  <Button
+                    variant="secondary"
+                    onClick={addExperience}
+                    className="px-3 py-2">
+                    Tambah
+                  </Button>
                 </div>
                 <div className="space-y-4">
                   {cvData.experience.map((experience, index) => (
-                    <div key={`${experience.company}-${index}`} className="space-y-4 border-l-2 border-slate-200 pl-4">
+                    <div
+                      key={`${experience.company}-${index}`}
+                      className="space-y-4 border-l-2 border-slate-200 pl-4">
                       <div className="flex items-center justify-between gap-3 pb-1">
-                        <p className="text-sm font-semibold text-slate-900">Pengalaman {index + 1}</p>
-                        <Button variant="ghost" onClick={() => removeExperience(index)} disabled={cvData.experience.length === 1}>
+                        <p className="text-sm font-semibold text-slate-900">
+                          Pengalaman {index + 1}
+                        </p>
+                        <Button
+                          variant="ghost"
+                          onClick={() => removeExperience(index)}
+                          disabled={cvData.experience.length === 1}>
                           Hapus
                         </Button>
                       </div>
@@ -335,22 +418,46 @@ export default function Builder() {
                         <Input
                           label="Perusahaan / Proyek"
                           value={experience.company}
-                          onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                          onChange={(e) =>
+                            handleExperienceChange(
+                              index,
+                              "company",
+                              e.target.value,
+                            )
+                          }
                         />
                         <Input
                           label="Posisi"
                           value={experience.role}
-                          onChange={(e) => handleExperienceChange(index, "role", e.target.value)}
+                          onChange={(e) =>
+                            handleExperienceChange(
+                              index,
+                              "role",
+                              e.target.value,
+                            )
+                          }
                         />
                         <Input
                           label="Durasi"
                           value={experience.duration}
-                          onChange={(e) => handleExperienceChange(index, "duration", e.target.value)}
+                          onChange={(e) =>
+                            handleExperienceChange(
+                              index,
+                              "duration",
+                              e.target.value,
+                            )
+                          }
                         />
                         <Input
                           label="Deskripsi Singkat"
                           value={experience.description}
-                          onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
+                          onChange={(e) =>
+                            handleExperienceChange(
+                              index,
+                              "description",
+                              e.target.value,
+                            )
+                          }
                         />
                       </div>
                     </div>
@@ -362,8 +469,12 @@ export default function Builder() {
             {currentStep === 3 && (
               <div className="space-y-5">
                 <div className="mb-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 4</p>
-                    <h2 className="mt-1 text-xl font-black text-slate-950">Keahlian</h2>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    Step 4
+                  </p>
+                  <h2 className="mt-1 text-xl font-black text-slate-950">
+                    Keahlian
+                  </h2>
                 </div>
                 <Input
                   label="Daftar Keahlian (pisahkan dengan koma)"
@@ -372,7 +483,8 @@ export default function Builder() {
                   placeholder="Misal: Microsoft Office, Public Speaking, React"
                 />
                 <div className="border-t border-slate-200 pt-4 text-sm text-slate-600">
-                  Gunakan kata kunci yang singkat dan relevan. Contoh: sistem operasi, framework, bahasa pemrograman, atau soft skill.
+                  Gunakan kata kunci yang singkat dan relevan. Contoh: sistem
+                  operasi, framework, bahasa pemrograman, atau soft skill.
                 </div>
               </div>
             )}
@@ -380,9 +492,15 @@ export default function Builder() {
             {currentStep === 4 && (
               <div className="space-y-5">
                 <div className="mb-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Step 5</p>
-                    <h2 className="mt-1 text-xl font-black text-slate-950">Review</h2>
-                    <p className="mt-1 text-sm text-slate-600">Pilih ukuran kertas dan cek tata letak.</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    Step 5
+                  </p>
+                  <h2 className="mt-1 text-xl font-black text-slate-950">
+                    Review
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Pilih ukuran kertas dan cek tata letak.
+                  </p>
                 </div>
 
                 <div className="grid gap-3 md:grid-cols-2">
@@ -410,13 +528,16 @@ export default function Builder() {
                 </div>
 
                 <div className="border-t border-slate-200 pt-4 text-sm text-slate-600">
-                  Template: <span className="font-semibold text-slate-900">{selectedTemplate.name}</span>. Lanjut ke preview untuk cek.
+                  Template:{" "}
+                  <span className="font-semibold text-slate-900">
+                    {selectedTemplate.name}
+                  </span>
+                  . Lanjut ke preview untuk cek.
                 </div>
               </div>
             )}
           </div>
-
-          <div className="mt-6 flex items-center justify-between gap-3 border-t border-slate-200 pt-4 lg:sticky lg:bottom-6 lg:bg-white/0 lg:pt-3">
+          <div className="mt-8 flex items-center justify-between gap-3 border-t border-slate-200 pt-4 lg:sticky lg:bottom-0.5 lg:bg-white/90 lg:pt-3">
             <Button
               variant="secondary"
               onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
@@ -438,20 +559,29 @@ export default function Builder() {
               </Button>
             )}
           </div>
-
         </section>
 
         <aside className="hidden rounded-lg border border-slate-200 bg-white p-4 shadow-soft lg:flex lg:flex-col lg:items-center lg:justify-start lg:overflow-y-auto lg:sticky lg:top-24">
           <div className="mb-3 w-full border-b border-slate-200 pb-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Preview</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+              Preview
+            </p>
             <div className="mt-1 flex items-center justify-between gap-3">
-              <p className="text-sm font-bold text-slate-950">{selectedTemplate.name}</p>
-              <span className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{paperSize.toUpperCase()}</span>
+              <p className="text-sm font-bold text-slate-950">
+                {selectedTemplate.name}
+              </p>
+              <span className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                {paperSize.toUpperCase()}
+              </span>
             </div>
           </div>
           <div className="w-full overflow-x-auto rounded-lg border border-slate-200 bg-slate-50/50 p-3">
             <div className="mx-auto w-fit">
-              <ProfessionalCV data={cvData} templateId={selectedTemplate.id} paperSize={paperSize} />
+              <ProfessionalCV
+                data={cvData}
+                templateId={selectedTemplate.id}
+                paperSize={paperSize}
+              />
             </div>
           </div>
         </aside>
