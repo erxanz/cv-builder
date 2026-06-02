@@ -4,7 +4,6 @@ import {
   FiChevronRight,
   FiClock,
   FiCircle,
-  FiFolder,
   FiGithub,
   FiLinkedin,
   FiMail,
@@ -193,9 +192,6 @@ function ProjectCard({ project }) {
     <article className="group rounded-3xl border border-slate-200 bg-[#F8FAFCB3] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-[#F8FAFC]">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-            <FiFolder className="text-base" />
-          </span>
           <div>
             <p className="text-base font-bold text-[#1E293B]">{project.name}</p>
             <p className="mt-1 text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
