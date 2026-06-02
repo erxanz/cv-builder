@@ -59,6 +59,20 @@ export const CV_TEMPLATES = [
     idealFor: ["Semua jurusan", "Fresh graduate", "ATS"],
   },
   {
+    id: "ats-fulltext",
+    name: "ATS Full Text",
+    category: "ATS",
+    description:
+      "Tampilan full tulisan tanpa kartu visual, dengan struktur sederhana dan fokus pada teks agar lebih mudah dipindai sistem ATS.",
+    layout: "ats",
+    accent: "slate",
+    gradient: "from-slate-900 via-slate-700 to-slate-500",
+    muted: "bg-slate-50 text-slate-700 border-slate-200",
+    ring: "ring-slate-200",
+    highlights: ["ATS friendly", "Full tulisan", "Mudah dipindai"],
+    idealFor: ["Semua posisi", "Fresh graduate", "Administrasi"],
+  },
+  {
     id: "editorial",
     name: "Editorial Warm",
     category: "Full Text",

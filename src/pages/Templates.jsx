@@ -8,6 +8,16 @@ import {
 } from "../data/cv";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
+function formatLayoutLabel(layout) {
+  if (layout === "ats") return "ATS";
+  if (layout === "fulltext") return "Full Text";
+  if (layout === "compact") return "Compact";
+  if (layout === "classic") return "Classic";
+  if (layout === "photo") return "Foto";
+  if (layout === "academic") return "Akademik";
+  return layout;
+}
+
 export default function Templates() {
   const navigate = useNavigate();
   const [, setSelectedTemplate] = useLocalStorage("cv_selected_template", DEFAULT_TEMPLATE_ID);
@@ -56,7 +66,7 @@ export default function Templates() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{tpl.category}</p>
                   <h3 className="mt-1 text-lg font-bold">{tpl.name}</h3>
                 </div>
-                <div className="text-sm text-slate-600">{tpl.layout}</div>
+                <div className="text-sm text-slate-600">{formatLayoutLabel(tpl.layout)}</div>
               </div>
 
               <div className="mt-4 flex items-center justify-between">
